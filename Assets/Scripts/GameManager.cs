@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;        //Allows us to use Lists. 
 using UnityEngine.UI;                    //Allows us to use UI.
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
     private Text levelText;                                    //Text to display current level number.
     private GameObject levelImage;                            //Image to block out level as levels are being set up, background for levelText.
     private BoardManager boardScript;                        //Store a reference to our BoardManager which will set up the level.
-    private int level = 1;                                    //Current level number, expressed in game as "Day 1".
+    private int level = 0;                                    //Current level number, expressed in game as "Day 1".
     private List<Enemy> enemies;                            //List of all Enemy units, used to issue them move commands.
     private bool enemiesMoving;                                //Boolean to check if enemies are moving.
     private bool doingSetup = true;                            //Boolean to check if we're setting up board, prevent Player from moving during setup.
@@ -25,17 +26,16 @@ public class GameManager : MonoBehaviour
     //Awake is always called before any Start functions
     void Awake()
     {
-        //Check if instance already exists
+        // Singleton logic
         if (instance == null)
-
-            //if not, set instance to this
+        {
             instance = this;
-
-        //If instance already exists and it's not this:
+        }
         else if (instance != this)
-
+        {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
+        }
 
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
@@ -45,18 +45,28 @@ public class GameManager : MonoBehaviour
 
         //Get a component reference to the attached BoardManager script
         boardScript = GetComponent<BoardManager>();
-
-        //Call the InitGame function to initialize the first level 
-        InitGame();
     }
 
     //This is called each time a scene is loaded.
-    void OnLevelWasLoaded(int index)
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        //Add one to our level number.
+        // Add one so when Scene is reloaded we'll move to the next level
         level++;
-        //Call InitGame to initialize our level.
+
         InitGame();
+    }
+
+    void OnEnable()
+    {
+        // Listen for a scene change event as soon as this script is enabled
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    void OnDisable()
+    {
+        // Stop listening for a scene change event as soon as this script is disabled
+        // Remember to always have an unsubscription for every event you subscribe to!
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
     }
 
     //Initializes the game for each level.
@@ -85,7 +95,6 @@ public class GameManager : MonoBehaviour
 
         //Call the SetupScene function of the BoardManager script, pass it current level number.
         boardScript.SetupScene(level);
-
     }
 
 

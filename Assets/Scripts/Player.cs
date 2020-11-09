@@ -32,8 +32,8 @@ public class Player : MovingObject
         animator = GetComponent<Animator>();
 
         //Get the current food point total stored in GameManager.instance between levels.
-       food = GameManager.instance.playerFoodPoints;
-       foodText.text = "Food: " + food;
+        food = GameManager.instance.playerFoodPoints;
+        foodText.text = "Food: " + food;
        
         //Call the Start function of the MovingObject base class.
         base.Start();
