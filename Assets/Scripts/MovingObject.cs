@@ -11,7 +11,7 @@ public abstract class MovingObject : MonoBehaviour
     private BoxCollider2D boxCollider;         //The BoxCollider2D component attached to this object.
     private Rigidbody2D rb2D;                //The Rigidbody2D component attached to this object.
     private float inverseMoveTime;            //Used to make movement more efficient.
-
+    private bool isMoving;
 
     //Protected, virtual functions can be overridden by inheriting classes.
     protected virtual void Start()
@@ -48,7 +48,7 @@ public abstract class MovingObject : MonoBehaviour
         boxCollider.enabled = true;
 
         //Check if anything was hit
-        if (hit.transform == null)
+        if (hit.transform == null && !isMoving)
         {
             //If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
             StartCoroutine(SmoothMovement(end));
@@ -69,6 +69,8 @@ public abstract class MovingObject : MonoBehaviour
         //Square magnitude is used instead of magnitude because it's computationally cheaper.
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
+        isMoving = true;
+
         //While that distance is greater than a very small amount (Epsilon, almost zero):
         while (sqrRemainingDistance > float.Epsilon)
         {
@@ -84,6 +86,9 @@ public abstract class MovingObject : MonoBehaviour
             //Return and loop until sqrRemainingDistance is close enough to zero to end the function
             yield return null;
         }
+
+        rb2D.MovePosition(end);
+        isMoving = false;
     }
 
 
