@@ -11,8 +11,6 @@ public class Loader : MonoBehaviour
     {
         if (GameManager.instance == null)
         {
-            Debug.Log("Loader: GameManager.instance is null");
-
             Instantiate(gameManager);
         }
     }
