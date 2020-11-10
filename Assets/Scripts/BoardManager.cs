@@ -79,9 +79,8 @@ public class BoardManager : MonoBehaviour
                     toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
                 }
 
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
                 instance.transform.SetParent(boardHolder);
-
             }
         }
     }
@@ -115,11 +114,5 @@ public class BoardManager : MonoBehaviour
         int enemyCount = (int)Mathf.Log(level, 2f);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
