@@ -24,7 +24,6 @@ public abstract class MovingObject : MonoBehaviour
 
         //By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
         inverseMoveTime = 1f / moveTime;
-        Debug.Log("inverseMoveTime = " + inverseMoveTime);
     }
 
 
