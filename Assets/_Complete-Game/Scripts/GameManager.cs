@@ -66,8 +66,11 @@ namespace Completed
         //This is called each time a scene is loaded.
         static private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            instance.level++;
-            instance.InitGame();
+			if (instance != null)
+			{
+				instance.level++;
+				instance.InitGame();
+			}
         }
 
 		
@@ -90,7 +93,7 @@ namespace Completed
 			levelImage.SetActive(true);
 			
 			//Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-			Invoke("HideLevelImage", levelStartDelay);
+			Invoke(nameof(HideLevelImage), levelStartDelay);
 			
 			//Clear any Enemy objects in our List to prepare for next level.
 			enemies.Clear();
