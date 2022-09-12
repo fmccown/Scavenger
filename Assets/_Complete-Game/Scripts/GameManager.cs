@@ -29,18 +29,20 @@ namespace Completed
 		//Awake is always called before any Start functions
 		void Awake()
 		{
-            //Check if instance already exists
-            if (instance == null)
+			// Check if instance already exists
+			if (instance == null)
+			{
+				// if not, set instance to this
+				instance = this;
+			}
 
-                //if not, set instance to this
-                instance = this;
+			// If instance already exists and it's not this:
+			else if (instance != this)
+			{
+				// Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+				Destroy(gameObject);
+			}
 
-            //If instance already exists and it's not this:
-            else if (instance != this)
-
-                //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
-                Destroy(gameObject);	
-			
 			//Sets this to not be destroyed when reloading scene
 			DontDestroyOnLoad(gameObject);
 			
@@ -119,9 +121,10 @@ namespace Completed
 		{
 			//Check that playersTurn or enemiesMoving or doingSetup are not currently true.
 			if (playersTurn || enemiesMoving || doingSetup)
-				
+			{
 				//If any of these are true, return and do not start MoveEnemies.
 				return;
+			}
 			
 			//Start moving enemies.
 			StartCoroutine (MoveEnemies ());

@@ -53,14 +53,11 @@ public class Player : MovingObject
         //If it's not the player's turn, exit the function.
         if (!GameManager.instance.playersTurn) return;
 
-        int horizontal = 0;      //Used to store the horizontal move direction.
-        int vertical = 0;        //Used to store the vertical move direction.
-
         //Get input from the input manager, round it to an integer and store in horizontal to set x axis move direction
-        horizontal = (int) Input.GetAxisRaw("Horizontal");
+        int horizontal = (int) Input.GetAxisRaw("Horizontal");
 
         //Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
-        vertical = (int) Input.GetAxisRaw("Vertical");
+        int vertical = (int) Input.GetAxisRaw("Vertical");
 
         //Check if moving horizontally, if so set vertical to zero.
         if (horizontal != 0)
@@ -128,7 +125,7 @@ public class Player : MovingObject
         if (other.tag == "Exit")
         {
             //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
-            Invoke("Restart", restartLevelDelay);
+            Invoke(nameof(Restart), restartLevelDelay);
 
             //Disable the player object since level is over.
             enabled = false;
