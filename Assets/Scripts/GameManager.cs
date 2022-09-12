@@ -113,9 +113,10 @@ public class GameManager : MonoBehaviour
     {
         //Check that playersTurn or enemiesMoving or doingSetup are not currently true.
         if (playersTurn || enemiesMoving || doingSetup)
-
+        {
             //If any of these are true, return and do not start MoveEnemies.
             return;
+        }
 
         //Start moving enemies.
         StartCoroutine(MoveEnemies());
@@ -167,6 +168,7 @@ public class GameManager : MonoBehaviour
             //Wait for Enemy's moveTime before moving next Enemy, 
             yield return new WaitForSeconds(enemies[i].moveTime);
         }
+
         //Once Enemies are done moving, set playersTurn to true so player can move.
         playersTurn = true;
 

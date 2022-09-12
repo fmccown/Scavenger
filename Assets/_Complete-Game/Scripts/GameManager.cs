@@ -127,7 +127,7 @@ namespace Completed
 			}
 			
 			//Start moving enemies.
-			StartCoroutine (MoveEnemies ());
+			StartCoroutine(MoveEnemies());
 		}
 		
 		//Call this to add the passed in Enemy to the List of Enemy objects.
